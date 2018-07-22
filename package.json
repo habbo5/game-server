@@ -18,12 +18,13 @@
   "homepage": "https://github.com/habbo5/game-server#readme",
   "dependencies": {
     "coffeescript": "^2.3.1",
-    "module-alias": "^2.1.0"
+    "module-alias": "^2.1.0",
+    "winston": "^3.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.3"
   },
   "_moduleAliases": {
-      "@": "src"
+    "@": "src"
   }
 }

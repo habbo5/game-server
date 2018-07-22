@@ -1,7 +1,9 @@
+logger = require '@/utils/logger'
+
 class Habbo
 
   constructor: () ->
-    console.log "Habbo is initiating"
+    logger.info 'Habbo is initiating'
 
   @getInstance: () ->
     @_instance ?= new @()
