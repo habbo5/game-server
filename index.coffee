@@ -6,4 +6,4 @@ require('dotenv').config()
 
 Habbo = require '@/habbo'
 
-new Habbo()
+Habbo.init()
