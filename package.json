@@ -21,7 +21,8 @@
     "dotenv": "^6.0.0",
     "module-alias": "^2.1.0",
     "mongoose": "^5.2.4",
-    "winston": "^3.0.0"
+    "winston": "^3.0.0",
+    "ws": "^6.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.3"

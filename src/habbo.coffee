@@ -1,5 +1,6 @@
 logger = require '@/utils/logger'
 db = require '@/storage/db'
+server = require '@/net/server'
 
 class Habbo
 
@@ -7,6 +8,7 @@ class Habbo
     logger.info "Habbo is initiating"
 
     await db.getInstance().init()
+    await server.getInstance().init()
 
     logger.info "The deathstar is fully armed and operational"
 
