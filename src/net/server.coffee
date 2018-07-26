@@ -1,19 +1,34 @@
 logger = require '@/utils/logger'
-WebSocket = require 'ws'
+io = require 'socket.io'
+eventRegistry = require '@/net/event-registry'
 
 class Server
 
-    init: ->
-      @wss = new WebSocket.Server({
-          port: process.env.WS_PORT
-      })
+    @getInstance: ->
+      @_instance ?= new @()
 
-      @wss.on 'connection', (ws) ->
-        logger.debug "a new ws connection was handled!"
+    init: ->
+      @wss = io.listen(process.env.WS_PORT)
+
+      @wss.on 'connection', (client) =>
+        @registerClientEvent(client, event) for event in eventRegistry
+
+        logger.info "new client connection handled"
 
       logger.info "Server is listening on port #{process.env.WS_PORT}"
 
-    @getInstance: ->
-      @_instance ?= new @()
+
+    registerClientEvent: (client, event) ->
+      return unless event.enabled
+
+      parts = event.uid.split('.')
+
+      uid = parts[parts.length - 1]
+      namespace = ''
+      if parts.length > 1
+        parts.splice parts.length - 1, 1
+        namespace = parts.join('/') + '/'
+
+      client.on uid, (data) -> (require '@/net/events/' + namespace + uid)(client, data)
 
   module.exports = Server
