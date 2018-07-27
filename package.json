@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/habbo5/game-server#readme",
   "dependencies": {
+    "bcrypt": "^3.0.0",
     "coffeescript": "^2.3.1",
     "dotenv": "^6.0.0",
     "module-alias": "^2.1.0",
