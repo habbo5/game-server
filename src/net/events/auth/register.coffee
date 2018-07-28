@@ -11,7 +11,7 @@ handle = (client, data) ->
   userExists = await User.findOne { username: data.username }
 
   usernameTakenError = composer.createResponse('auth.registration-error', { error: 'Username has already been taken' })
-  return client.emit(usernameTakenError.header, usernameTakenError.payload) if userExists
+  return client.respond usernameTakenError if userExists
 
   hash = await bcrypt.hash(data.password, 10)
 
@@ -22,9 +22,9 @@ handle = (client, data) ->
   }
 
   userCreationError = composer.createResponse('auth.registration-error', { error: 'Error during user creation' })
-  return client.emit(userCreationError.header, userCreationError.payload) unless user
+  return client.respond userCreationError unless user
 
   authenticatedMessage = composer.createResponse('auth.authenticated', { username: user.username })
-  return client.emit(authenticatedMessage.header, authenticatedMessage.payload)
+  return client.respond authenticatedMessage
 
 module.exports = handle
