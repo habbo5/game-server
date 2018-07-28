@@ -24,4 +24,7 @@ handle = (client, data) ->
   userCreationError = composer.createResponse('auth.registration-error', { error: 'Error during user creation' })
   return client.emit(userCreationError.header, userCreationError.payload) unless user
 
+  authenticatedMessage = composer.createResponse('auth.authenticated', { username: user.username })
+  return client.emit(authenticatedMessage.header, authenticatedMessage.payload)
+
 module.exports = handle
