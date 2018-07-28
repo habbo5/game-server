@@ -1,7 +1,8 @@
 logger = require '@/utils/logger'
-io = require 'socket.io'
+WebSocket = require 'ws'
 eventRegistry = require '@/net/event-registry'
 pathResolver = require '@/utils/path-resolver'
+composer = require '@/net/composer'
 
 class Server
 
@@ -9,12 +10,12 @@ class Server
       @_instance ?= new @()
 
     init: ->
-      @wss = io.listen(process.env.WS_PORT)
+      @wss = new WebSocket.Server { port: process.env.WS_PORT }
 
       @wss.on 'connection', (client) =>
         @registerClientEvent(client, event) for event in eventRegistry
 
-        client.respond = (response) -> client.emit(response.header, response.payload)
+        client.respond = (response) -> client.send(JSON.stringify response)
 
         logger.info "new client connection handled"
 

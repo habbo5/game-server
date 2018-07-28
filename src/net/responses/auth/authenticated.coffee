@@ -2,8 +2,7 @@ prepare = (data) ->
 
   message =
     header: 'authenticated'
-    payload:
-      username: data.username
+    username: data.username
 
   return message
 
