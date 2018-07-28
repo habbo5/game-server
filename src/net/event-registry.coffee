@@ -1,7 +1,7 @@
 events = [
 
   {
-    uid: 'auth.authenticate'
+    uid: 'auth.login'
     enabled: true
   }
 
