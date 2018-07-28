@@ -1,6 +1,7 @@
 logger = require '@/utils/logger'
 io = require 'socket.io'
 eventRegistry = require '@/net/event-registry'
+pathResolver = require '@/utils/path-resolver'
 
 class Server
 
@@ -21,14 +22,9 @@ class Server
     registerClientEvent: (client, event) ->
       return unless event.enabled
 
-      parts = event.uid.split('.')
+      path = pathResolver event.uid
 
-      uid = parts[parts.length - 1]
-      namespace = ''
-      if parts.length > 1
-        parts.splice parts.length - 1, 1
-        namespace = parts.join('/') + '/'
-
-      client.on uid, (data) -> (require '@/net/events/' + namespace + uid)(client, data)
+      client.on path.uid, (data) -> (require '@/net/events/' + path.namespace + path.uid)(client, data)
+      
 
   module.exports = Server

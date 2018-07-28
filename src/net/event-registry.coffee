@@ -6,6 +6,11 @@ events = [
   }
 
   {
+    uid: 'auth.register'
+    enabled: true
+  }
+
+  {
     uid: 'test'
     enabled: false
   }
