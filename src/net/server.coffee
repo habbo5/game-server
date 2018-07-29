@@ -1,7 +1,5 @@
 logger = require '@/utils/logger'
 WebSocket = require 'ws'
-eventRegistry = require '@/net/event-registry'
-pathResolver = require '@/utils/path-resolver'
 composer = require '@/net/composer'
 
 class Server
@@ -13,21 +11,24 @@ class Server
       @wss = new WebSocket.Server { port: process.env.WS_PORT }
 
       @wss.on 'connection', (client) =>
-        @registerClientEvent(client, event) for event in eventRegistry
+
+        client.on 'message', (data) ->
+          try
+            data = JSON.parse data
+            (require '@/net/events/' + data.header)(client, data)
+          catch e
+            if e.code and e.code is 'MODULE_NOT_FOUND'
+              logger.debug "Received event in incorrect format: #{JSON.stringify data}"
+            else
+              logger.error e
+          unless e
+            logger.debug "Handled event: #{JSON.stringify data}"
 
         client.respond = (response) -> client.send(JSON.stringify response)
 
-        logger.info "new client connection handled"
+        logger.debug "new client connection handled"
 
       logger.info "Server is listening on port #{process.env.WS_PORT}"
-
-
-    registerClientEvent: (client, event) ->
-      return unless event.enabled
-
-      path = pathResolver event.uid
-
-      client.on path.uid, (data) -> (require '@/net/events/' + path.namespace + path.uid)(client, data)
 
 
   module.exports = Server

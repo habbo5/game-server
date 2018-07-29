@@ -6,7 +6,10 @@ composer = require '@/net/composer'
 handle = (client, data) ->
   return if client.habbo || !data.password || !data.username
 
-  genericLoginError = composer.createResponse('auth.login-error', { error: 'Username and password does not match' })
+  genericLoginError = composer.createResponse('alert', {
+    title: 'Notice!'
+    message: 'Username and password does not match.'
+  })
 
   user = await User.findOne({ username: data.username })
 
