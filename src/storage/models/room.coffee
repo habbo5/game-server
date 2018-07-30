@@ -18,12 +18,31 @@ RoomSchema = new Schema({
     unique: "true"
   }
 
-  model_name: {
+  floor_data: {
     type: String
     required: "Can't be left open"
-    unique: "true"
+  }
+
+  size: {
+    type: Number
+    required: "Can't be left open"
+  }
+
+  spawn_x: {
+    type: Number
+    required: "Can't be left open"
+  }
+
+  spawn_y: {
+    type: Number
+    required: "Can't be left open"
+  }
+
+  spawn_direction: {
+    type: Number
+    required: "Can't be left open"
   }
 
 })
 
-module.exports = mongoose.model('room-model', RoomSchema)
+module.exports = mongoose.model('room', RoomSchema)
