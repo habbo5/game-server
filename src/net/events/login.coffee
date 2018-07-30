@@ -9,9 +9,10 @@ handle = (client, data) ->
   genericLoginError = composer.createResponse('alert', {
     title: 'Notice!'
     message: 'Username and password does not match.'
+    trigger: 'login.retry'
   })
 
-  user = await User.findOne({ username: data.username })
+  user = await User.findOne({ username: { $regex : new RegExp(data.username, "i") } })
 
   return client.respond genericLoginError unless user
 
@@ -19,7 +20,7 @@ handle = (client, data) ->
 
   return client.respond genericLoginError unless correctPw
 
-  authenticatedMessage = composer.createResponse('auth.authenticated', { username: user.username })
+  authenticatedMessage = composer.createResponse('authenticated', { username: user.username })
   return client.respond authenticatedMessage
 
 module.exports = handle

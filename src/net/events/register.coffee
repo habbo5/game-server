@@ -8,7 +8,7 @@ composer = require '@/net/composer'
 handle = (client, data) ->
   return if client.habbo || !data.password || !data.username
 
-  userExists = await User.findOne { username: data.username }
+  userExists = await User.findOne { username: { $regex : new RegExp(data.username, "i") } }
 
   client.respond composer.createResponse('alert', {
       title: 'Notice!'
