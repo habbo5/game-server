@@ -5,13 +5,13 @@ Schema = mongoose.Schema
 RoomModelSchema = new Schema({
 
   model_name: {
-    type: String,
-    required: "Can't be left open",
+    type: String
+    required: "Can't be left open"
     unique: "true"
-  },
+  }
 
   floor_data: {
-    type: String,
+    type: String
     required: "Can't be left open"
   }
 
