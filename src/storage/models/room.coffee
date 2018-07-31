@@ -43,6 +43,8 @@ RoomSchema = new Schema({
     required: "Can't be left open"
   }
 
+  public: Boolean
+
 })
 
 module.exports = mongoose.model('room', RoomSchema)

@@ -20,6 +20,9 @@ handle = (client, data) ->
 
   return client.respond genericLoginError unless correctPw
 
+  client.habbo =
+    username: user.username
+
   authenticatedMessage = composer.createResponse('authenticated', { username: user.username })
   return client.respond authenticatedMessage
 
