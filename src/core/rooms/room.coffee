@@ -19,9 +19,12 @@ class Room
   addUser: (user) ->
     @roomUsers.push user if user not in @roomUsers
 
-    message = composer.createResponse('add-avatar-to-room', user)
+    toAllRoomUsers = composer.createResponse('add-avatar-to-room', user)
 
-    roomUser.client.respond message for roomUser in @roomUsers
+    for roomUser in @roomUsers
+      roomUser.client.respond toAllRoomUsers
+
+      user.client.respond composer.createResponse('add-avatar-to-room', roomUser) unless roomUser is user
 
   removeUser: (user) ->
     @roomUsers = @roomUsers.filter (roomUser) -> roomUser isnt user
@@ -38,13 +41,13 @@ class Room
       unless user.wantsToMove()
         usersFinishedWalking.push user if user.isWalking
         user.isWalking = false
-        break
+        continue
 
       newPos = pathfinder.getClosestSquare(@squaremap, user.x, user.y, user.targetX, user.targetY)
 
       if newPos.x is user.x and newPos.y is user.y
         usersFinishedWalking.push user if user.isWalking and user not in usersFinishedWalking
-        break;
+        continue
 
       user.isWalking = true
 
