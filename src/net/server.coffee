@@ -18,9 +18,9 @@ class Server
             (require '@/net/events/' + data.header)(client, data)
           catch e
             if e.code and e.code is 'MODULE_NOT_FOUND'
-              logger.debug "Received event in incorrect format: #{JSON.stringify data}"
+              logger.debug "Received event in incorrect format: #{JSON.stringify data} - Error:  #{e.toString()}"
             else
-              logger.error e
+              logger.error e.toString()
           unless e
             logger.debug "Handled event: #{JSON.stringify data}"
 
