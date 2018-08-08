@@ -4,11 +4,11 @@ class RoomUser
 
   constructor: (@client, @room) ->
     @uid = shortid.generate()
-    @x = 0
-    @y = 0
-    @targetX = 0
-    @targetY = 0
-    @r = 0
+    @x = @room.spawn_x
+    @y = @room.spawn_y
+    @targetX = @room.spawn_x
+    @targetY = @room.spawn_y
+    @r = @room.spawn_direction
     @figure = @client.habbo.figure
     @isWalking = false
 

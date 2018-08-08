@@ -17,10 +17,6 @@ handle = (client, data) ->
   client.roomUser?.room?.removeUser client.roomUser
 
   roomUser = new RoomUser(client, room)
-  roomUser.x = room.spawn_x
-  roomUser.y = room.spawn_y
-  roomUser.targetX = room.spawn_x
-  roomUser.targetY = room.spawn_y
 
   client.roomUser = roomUser
 
