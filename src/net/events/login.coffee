@@ -22,6 +22,7 @@ handle = (client, data) ->
 
   client.habbo =
     username: user.username
+    figure: user.figure
 
   authenticatedMessage = composer.createResponse('authenticated', { username: user.username })
   return client.respond authenticatedMessage

@@ -9,8 +9,10 @@ class RoomUser
     @targetX = 0
     @targetY = 0
     @r = 0
-    @look = 'Konquer'
+    @figure = @client.habbo.figure
     @isWalking = false
+
+    console.log @client.habbo
 
   wantsToMove: ->
     return @x isnt @targetX or @y isnt @targetY

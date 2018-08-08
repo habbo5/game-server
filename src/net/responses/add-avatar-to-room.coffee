@@ -6,7 +6,7 @@ prepare = (data) ->
     x : data.x
     y: data.y
     r: data.r
-    look: "konquer"
+    look: data.figure || "1"
 
   return message
 
