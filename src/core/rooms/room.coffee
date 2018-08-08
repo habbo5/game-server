@@ -5,9 +5,9 @@ pathfinder = require '@/core/pathfinding/pathfinder'
 
 class Room
 
-  roomUsers: []
-
   constructor: (@uid, @name, @owner_uid, @floor_data, @size, @spawn_x, @spawn_y, @spawn_direction, @public) ->
+
+    @roomUsers = []
 
     @squaremap = new SquareMap(@floor_data, @size)
 
@@ -17,7 +17,7 @@ class Room
 
 
   addUser: (user) ->
-    @roomUsers.push user if user not in @roomUsers
+    @roomUsers.push user
 
     toAllRoomUsers = composer.createResponse('add-avatar-to-room', user)
 
@@ -27,8 +27,11 @@ class Room
       user.client.respond composer.createResponse('add-avatar-to-room', roomUser) unless roomUser is user
 
   removeUser: (user) ->
-    @roomUsers = @roomUsers.filter (roomUser) -> roomUser isnt user
+    @roomUsers = @roomUsers.filter (roomUser) -> roomUser.client isnt user.client
 
+    userRemovedMessage = composer.createResponse('remove-avatar-from-room', user)
+
+    roomUser.client.respond userRemovedMessage for roomUser in @roomUsers when roomUser isnt user
 
 
   cycle: ->

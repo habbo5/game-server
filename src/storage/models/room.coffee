@@ -15,7 +15,6 @@ RoomSchema = new Schema({
   owner_uid: {
     type: String
     required: "Must have an owner"
-    unique: "true"
   }
 
   floor_data: {

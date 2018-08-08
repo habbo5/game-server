@@ -2,6 +2,7 @@ logger = require '@/utils/logger'
 RoomSchema = require '@/storage/models/room'
 Room = require '@/core/rooms/room'
 composer = require '@/net/composer'
+shortid = require 'shortid'
 
 rooms = {}
 
@@ -21,3 +22,23 @@ exports.closeRoom = (uid) ->
   if rooms[uid]
     rooms[uid].dispose()
     delete rooms[uid]
+
+exports.createRoom = (roomData) ->
+  room = await RoomSchema.create {
+    uid: shortid.generate()
+    name: roomData.name
+    owner_uid: roomData.owner_uid
+    floor_data: roomData.floor_data
+    size: roomData.size
+    spawn_x: roomData.spawn_x
+    spawn_y: roomData.spawn_y
+    spawn_direction: roomData.spawn_direction
+    public: roomData.public
+  }
+
+  return @getRoom room.uid
+
+exports.getRooms = () ->
+  return rooms
+
+  return room
