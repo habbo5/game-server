@@ -12,9 +12,10 @@ class RoomUser
     @figure = @client.habbo.figure
     @isWalking = false
 
-    console.log @client.habbo
-
   wantsToMove: ->
     return @x isnt @targetX or @y isnt @targetY
+
+  leave: ->
+    @room.removeUser @
 
 module.exports = RoomUser

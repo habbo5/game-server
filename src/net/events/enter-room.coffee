@@ -14,7 +14,7 @@ handle = (client, data) ->
       message: 'The room you requested could not be found, did the owner delete it?'
   }) unless room
 
-  client.roomUser?.room?.removeUser client.roomUser
+  client.roomUser?.leave()
 
   roomUser = new RoomUser(client, room)
 

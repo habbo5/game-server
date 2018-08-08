@@ -12,6 +12,13 @@ class Server
 
       @wss.on 'connection', (client) =>
 
+        client.on 'close', () ->
+          client.roomUser?.leave()
+          delete client.habbo
+          delete client.roomUser
+          client.habbo = null
+          client.roomUser = null
+
         client.on 'message', (data) ->
           try
             data = JSON.parse data
@@ -24,7 +31,7 @@ class Server
           unless e
             logger.debug "Handled event: #{JSON.stringify data}"
 
-        client.respond = (response) -> client.send(JSON.stringify response)
+        client.respond = (response) -> try client.send(JSON.stringify response) catch e then logger.error e.toString()
 
         logger.debug "new client connection handled"
 
